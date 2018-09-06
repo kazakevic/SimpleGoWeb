@@ -2,7 +2,36 @@
 {{ template "header" }}
 
 <div class="row">
-    <div class="col-md"><h4>asdasdad</h4></div>
+    <div class="col-md">
+        <table class="table">
+            <thead>
+                <tr>
+                    {{ range $key, $val := index . 0}}
+                    <th>{{ $val }}</th>
+                    {{ end }}
+                </tr>
+            </thead>
+
+            <tbody>
+                   
+                {{ range $key, $val := . }}
+                    {{ if gt $key 0}}
+                            <tr>
+                                <td>{{ index $val 0 }}</td>
+                                <td>{{ index $val 1 }}</td>
+                                <td>{{ index $val 2 }}</td>
+                                <td>{{ index $val 3 }}</td>
+                                <td>{{ index $val 4 }}</td>
+                                <td>{{ index $val 5 }}</td>
+                                <td>{{ index $val 6 }}</td>
+                                <td>{{ index $val 7 }}</td>
+                                <td>{{ index $val 8 }}</td>
+                            </tr>   
+                    {{ end }}        
+                {{ end }}  
+            </tbody>
+        </table>
+    </div>
 </div>
 
 {{ template "footer" }}

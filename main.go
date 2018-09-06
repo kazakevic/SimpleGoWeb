@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/csv"
 	"fmt"
 	"html/template"
 	"log"
@@ -17,8 +18,27 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Fprintf(w, err.Error())
 	}
+	url := "https://raw.githubusercontent.com/vilnius/mokyklos/master/data/Mokyklu%20planuojamos%20komplektacijos2018.csv"
+	data, _ := readCSVFromUrl(url)
 
-	t.ExecuteTemplate(w, "index", nil)
+	t.ExecuteTemplate(w, "index", data)
+}
+
+func readCSVFromUrl(url string) ([][]string, error) {
+	resp, err := http.Get(url)
+	if err != nil {
+		return nil, err
+	}
+
+	defer resp.Body.Close()
+	reader := csv.NewReader(resp.Body)
+	reader.Comma = ';'
+	data, err := reader.ReadAll()
+	if err != nil {
+		return nil, err
+	}
+
+	return data, nil
 }
 
 func main() {
